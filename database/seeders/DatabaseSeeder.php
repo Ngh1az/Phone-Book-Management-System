@@ -13,15 +13,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Seed test data
+        $this->call([
+            ContactSeeder::class,
+        ]);
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => 'password',
-                'email_verified_at' => now(),
-            ]
-        );
+        // Optionally create additional random users with contacts
+        // Uncomment below to generate more test data
+        /*
+        User::factory(5)
+            ->has(
+                \App\Models\Group::factory(3)
+                    ->has(\App\Models\Contact::factory(5))
+            )
+            ->has(\App\Models\Tag::factory(4))
+            ->create();
+        */
     }
 }
