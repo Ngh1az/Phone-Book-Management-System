@@ -1,16 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    // Redirect to dashboard if authenticated, otherwise to login
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [App\Http\Controllers\Web\DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Contact Management Routes
+    Route::resource('contacts', App\Http\Controllers\Web\ContactController::class);
+    Route::resource('groups', App\Http\Controllers\Web\GroupController::class);
+    Route::resource('tags', App\Http\Controllers\Web\TagController::class);
 });
 
 require __DIR__.'/settings.php';

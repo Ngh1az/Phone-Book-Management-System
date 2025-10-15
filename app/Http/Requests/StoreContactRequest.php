@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property array|null $tags
+ */
 class StoreContactRequest extends FormRequest
 {
     /**
@@ -37,7 +40,9 @@ class StoreContactRequest extends FormRequest
                 'integer',
                 'exists:groups,id',
                 function ($attribute, $value, $fail) {
-                    if ($value && !\App\Models\Group::where('id', $value)->where('user_id', auth()->id())->exists()) {
+                    // @phpstan-ignore-next-line - auth()->id() returns int|null
+                    $userId = auth()->id();
+                    if ($value && ! \App\Models\Group::where('id', $value)->where('user_id', $userId)->exists()) {
                         $fail('The selected group does not belong to you.');
                     }
                 },
@@ -57,11 +62,17 @@ class StoreContactRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-            if ($this->has('tags') && is_array($this->tags)) {
-                $userId = auth()->id();
-                $tags = \App\Models\Tag::whereIn('id', $this->tags)->where('user_id', $userId)->pluck('id')->toArray();
+            // Check if tags are provided
+            $hasTags = $this->has('tags'); // @phpstan-ignore-line
+            $tagsInput = $this->tags; // @phpstan-ignore-line
 
-                if (count($tags) !== count($this->tags)) {
+            if ($hasTags && is_array($tagsInput)) {
+                $userId = auth()->id(); // @phpstan-ignore-line
+                /** @var array<int> $tagIds */
+                $tagIds = $tagsInput;
+                $validTags = \App\Models\Tag::whereIn('id', $tagIds)->where('user_id', $userId)->pluck('id')->toArray();
+
+                if (count($validTags) !== count($tagIds)) {
                     $validator->errors()->add('tags', 'Some selected tags do not belong to you.');
                 }
             }

@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed test data
+        // Seed test data with Vietnamese contacts
         $this->call([
-            ContactSeeder::class,
+            VietnameseContactSeeder::class,
         ]);
 
         // Optionally create additional random users with contacts

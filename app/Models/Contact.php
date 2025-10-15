@@ -59,7 +59,7 @@ class Contact extends Model
      *
      * @var array<int, string>
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'avatar_url'];
 
     /**
      * Get the user that owns the contact.
@@ -93,6 +93,16 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn () => trim("{$this->first_name} {$this->last_name}")
+        );
+    }
+
+    /**
+     * Get the full URL for the avatar.
+     */
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->avatar ? asset('storage/' . $this->avatar) : null
         );
     }
 
