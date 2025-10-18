@@ -49,19 +49,16 @@ export default function ContactShow({ contact }: ContactShowProps) {
 
     const toggleFavorite = () => {
         router.post(
-            `/api/contacts/${contact.id}/toggle-favorite`,
+            `/contacts/${contact.id}/toggle-favorite`,
             {},
             {
                 preserveScroll: true,
-                onSuccess: () => {
-                    router.reload({ only: ['contact'] });
-                },
             },
         );
     };
 
     const handleDelete = () => {
-        router.delete(`/api/contacts/${contact.id}`, {
+        router.delete(`/contacts/${contact.id}`, {
             onSuccess: () => {
                 router.visit('/contacts');
             },

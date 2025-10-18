@@ -123,14 +123,10 @@ export default function ContactsIndex({
 
     const toggleFavorite = (contact: Contact) => {
         router.post(
-            `/api/contacts/${contact.id}/toggle-favorite`,
+            `/contacts/${contact.id}/toggle-favorite`,
             {},
             {
                 preserveScroll: true,
-                onSuccess: () => {
-                    // Refresh the page to show updated data
-                    router.reload({ only: ['contacts'] });
-                },
             },
         );
     };
@@ -142,8 +138,9 @@ export default function ContactsIndex({
     const handleDelete = () => {
         if (!deleteContact) return;
 
-        router.delete(`/api/contacts/${deleteContact.id}`, {
+        router.delete(`/contacts/${deleteContact.id}`, {
             preserveScroll: true,
+            preserveState: true,
             onSuccess: () => {
                 setDeleteContact(null);
             },

@@ -182,4 +182,19 @@ class ContactController extends Controller
         return Redirect::route('contacts.index')
             ->with('success', 'Contact deleted successfully.');
     }
+
+    /**
+     * Toggle the favorite status of the specified contact.
+     */
+    public function toggleFavorite(Contact $contact)
+    {
+        $this->authorize('update', $contact);
+
+        $contact->update([
+            'is_favorite' => !$contact->is_favorite,
+        ]);
+
+        return Redirect::back()
+            ->with('success', $contact->is_favorite ? 'Added to favorites.' : 'Removed from favorites.');
+    }
 }

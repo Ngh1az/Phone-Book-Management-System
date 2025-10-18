@@ -16,7 +16,19 @@ A modern, full-featured contact management system built with Laravel 11 and Reac
 ### **📇 Contact Management**
 
 - ✅ Full CRUD operations (Create, Read, Update, Delete)
-- ✅ **Avatar upload** with preview and drag-and-drop
+- ✅ **Avatar upload** with preview an<div align="center">
+
+### 🎉 **Phase 3 Complete - Full CRUD for Contacts, Groups & Tags!** 🚀
+
+**Phase 1**: Backend ✅ | **Phase 2**: Controllers & API ✅ | **Phase 3**: Frontend ✅ **COMPLETE!**
+
+**Next**: Dashboard with statistics & analytics 📊
+
+Made with ❤️ using Laravel 11 & React 18 + TypeScript
+
+[⬆ Back to top](#-phone-book-management-system)
+
+</div>drop
 - ✅ Soft deletes with recovery option
 - ✅ Rich contact details: name, phone, email, company, job title, birthday, address, notes
 - ✅ Beautiful card-based list view
@@ -337,6 +349,82 @@ php test-models.php
 - Confirm deletion in dialog
 - Contact is soft-deleted (can be recovered via database)
 
+### **Managing Groups**
+
+#### **1. Create a Group**
+
+1. Go to **Groups** page from navigation
+2. Click **"Thêm nhóm"** button
+3. Enter group name (e.g., "Gia đình", "Công việc")
+4. Add description (optional)
+5. **Choose color**:
+    - Select from 8 preset colors
+    - Or use custom color picker
+6. Preview the group card
+7. Click **"Lưu nhóm"**
+
+#### **2. View Group Details**
+
+- Click on any group card
+- See group info with colored icon
+- View all contacts in the group
+- Use pagination if more than 15 contacts
+
+#### **3. Edit a Group**
+
+- Open group detail page
+- Click **"Chỉnh sửa"**
+- Update name, description, or color
+- Click **"Cập nhật"**
+
+#### **4. Delete a Group**
+
+- Open group detail page
+- Click **"Xóa"**
+- Confirm deletion (shows contact count)
+- ⚠️ Contacts are NOT deleted, only the group
+
+### **Managing Tags**
+
+#### **1. Create a Tag**
+
+1. Go to **Tags** page from navigation
+2. Click **"Thêm nhãn"** button
+3. Enter tag name (e.g., "VIP", "Quan trọng")
+4. System auto-generates slug (e.g., "vip", "quan-trong")
+5. **Choose color** (preset or custom)
+6. Preview the tag badge
+7. Click **"Lưu nhãn"**
+
+#### **2. View Tag Details**
+
+- Click on any tag badge
+- See tag info with colored badge
+- View all contacts with this tag
+- Use pagination if needed
+
+#### **3. Assign Tags to Contacts**
+
+- When creating/editing contact
+- Click tag buttons to toggle selection
+- Selected tags show with colored background
+- Can assign multiple tags per contact
+
+#### **4. Edit a Tag**
+
+- Open tag detail page
+- Click **"Chỉnh sửa"**
+- Update name or color
+- Slug updates automatically
+- Click **"Cập nhật"**
+
+#### **5. Delete a Tag**
+
+- Open tag detail page
+- Click **"Xóa"**
+- Confirm deletion (shows contact count)
+- ⚠️ Tag is removed from all contacts
+
 ### **Code Examples**
 
 #### **Query Contacts (Backend)**
@@ -450,17 +538,32 @@ if ($request->hasFile('avatar')) {
 - [x] Laravel Sanctum (API authentication)
 - [x] Comprehensive Tests (59 tests passing)
 
-### **Phase 3: Frontend** ✅ **COMPLETE** (70% - Core features done)
+### **Phase 3: Frontend** ✅ **COMPLETE** (100%)
 
 **Completed:**
 
-- [x] **Contact Management**
+- [x] **Contact Management** (100%)
     - [x] Contacts Index Page with search, filters, pagination
     - [x] Contact Detail Page with quick actions
     - [x] Contact Create Form with avatar upload
     - [x] Contact Edit Form with pre-filled data
     - [x] Avatar upload system (drag-and-drop, preview, remove)
     - [x] Delete confirmation dialog
+    - [x] Toggle favorite functionality
+- [x] **Group Management** (100%)
+    - [x] Groups Index Page with search and card grid
+    - [x] Group Create Form with color picker
+    - [x] Group Edit Form
+    - [x] Group Detail Page with contacts list
+    - [x] Preset and custom color selection
+    - [x] Delete confirmation with contact count
+- [x] **Tag Management** (100%)
+    - [x] Tags Index Page with search and badges
+    - [x] Tag Create Form with color picker
+    - [x] Tag Edit Form
+    - [x] Tag Detail Page with contacts list
+    - [x] Auto-generate slug from Vietnamese names
+    - [x] Multi-tag selection with color indicators
 - [x] **UI Components**
     - [x] Alert Dialog component
     - [x] Textarea component
@@ -468,6 +571,7 @@ if ($request->hasFile('avatar')) {
     - [x] Button, Input, Select components
     - [x] Avatar component with fallback
     - [x] Badge component for tags/groups
+    - [x] Card component for layouts
 - [x] **Hooks & Utilities**
     - [x] Debounce hook for search (500ms)
     - [x] Form handling with Inertia.js
@@ -476,16 +580,9 @@ if ($request->hasFile('avatar')) {
     - [x] Validation colors improved (better visibility)
     - [x] Pagination preserves filters
     - [x] Avatar upload/display fixed (column name + accessor)
+    - [x] Delete preserves state and scroll position
 - [x] **Data**
-    - [x] Vietnamese sample data seeder (20 contacts)
-
-**Remaining:**
-
-- [ ] Group Management UI (index, create, edit, show)
-- [ ] Tag Management UI (index, create, edit, show)
-- [ ] Dashboard with statistics
-
-### **Phase 4: Advanced Features** ⏳ **PLANNED**
+    - [x] Vietnamese sample data seeder (20 contacts, 5 groups, 5 tags)### **Phase 4: Advanced Features** ⏳ **PLANNED**
 
 - [ ] Import/Export (CSV, vCard)
 - [ ] Bulk Operations
@@ -619,14 +716,14 @@ This project is open-sourced software licensed under the [MIT license](LICENSE).
 | API Controllers | ✅ Complete     | 100%     |
 | Web Controllers | ✅ Complete     | 100%     |
 | **Contact UI**  | ✅ **Complete** | **100%** |
-| Groups UI       | ⏳ Planned      | 0%       |
-| Tags UI         | ⏳ Planned      | 0%       |
+| **Groups UI**   | ✅ **Complete** | **100%** |
+| **Tags UI**     | ✅ **Complete** | **100%** |
 | Dashboard       | ⏳ Planned      | 0%       |
 | Documentation   | ✅ Complete     | 100%     |
 
-**Overall Progress**: Phase 1 ✅ + Phase 2 ✅ + Phase 3 (70%) 🚧
+**Overall Progress**: Phase 1 ✅ + Phase 2 ✅ + Phase 3 ✅ **COMPLETE!**
 
-**Core Features Ready**: Contact Management fully functional with avatar upload, search, filters, and Vietnamese data!
+**Production Ready**: All core features (Contacts, Groups, Tags) fully functional with complete CRUD operations!
 
 ---
 

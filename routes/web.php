@@ -15,6 +15,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Contact Management Routes
     Route::resource('contacts', App\Http\Controllers\Web\ContactController::class);
+    Route::post('contacts/{contact}/toggle-favorite', [App\Http\Controllers\Web\ContactController::class, 'toggleFavorite'])
+        ->name('contacts.toggle-favorite');
+
     Route::resource('groups', App\Http\Controllers\Web\GroupController::class);
     Route::resource('tags', App\Http\Controllers\Web\TagController::class);
 });
