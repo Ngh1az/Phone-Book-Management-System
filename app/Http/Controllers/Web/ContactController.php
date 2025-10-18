@@ -197,4 +197,51 @@ class ContactController extends Controller
         return Redirect::back()
             ->with('success', $contact->is_favorite ? 'Added to favorites.' : 'Removed from favorites.');
     }
+
+    /**
+     * Display a listing of trashed contacts.
+     */
+    public function trash(Request $request)
+    {
+        $contacts = Contact::onlyTrashed()
+            ->forUser(auth()->id())
+            ->with(['group', 'tags'])
+            ->latest('deleted_at')
+            ->paginate($request->input('per_page', 15))
+            ->withQueryString();
+
+        return Inertia::render('contacts/trash', [
+            'contacts' => $contacts,
+        ]);
+    }
+
+    /**
+     * Restore a soft-deleted contact.
+     */
+    public function restore(int $id)
+    {
+        $contact = Contact::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $contact);
+
+        $contact->restore();
+
+        return Redirect::back()
+            ->with('success', 'Contact restored successfully.');
+    }
+
+    /**
+     * Permanently delete a contact.
+     */
+    public function forceDelete(int $id)
+    {
+        $contact = Contact::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $contact);
+
+        $contact->forceDelete();
+
+        return Redirect::back()
+            ->with('success', 'Contact permanently deleted.');
+    }
 }

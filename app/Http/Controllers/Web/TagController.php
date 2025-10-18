@@ -59,7 +59,6 @@ class TagController extends Controller
         ]);
 
         $validated['user_id'] = auth()->id();
-        $validated['slug'] = $this->generateUniqueSlug($validated['name']);
 
         Tag::create($validated);
 
@@ -116,11 +115,6 @@ class TagController extends Controller
             'color' => ['required', 'string', 'regex:/^#[0-9A-F]{6}$/i'],
         ]);
 
-        // Update slug if name changed
-        if ($validated['name'] !== $tag->name) {
-            $validated['slug'] = $this->generateUniqueSlug($validated['name'], $tag->id);
-        }
-
         $tag->update($validated);
 
         return Redirect::route('tags.show', $tag)
@@ -138,26 +132,5 @@ class TagController extends Controller
 
         return Redirect::route('tags.index')
             ->with('success', 'Tag deleted successfully.');
-    }
-
-    /**
-     * Generate a unique slug for the tag.
-     */
-    private function generateUniqueSlug(string $name, ?int $ignoreId = null): string
-    {
-        $slug = Str::slug($name);
-        $originalSlug = $slug;
-        $counter = 1;
-
-        while (
-            Tag::where('slug', $slug)
-                ->where('user_id', auth()->id())
-                ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
-                ->exists()
-        ) {
-            $slug = $originalSlug . '-' . $counter++;
-        }
-
-        return $slug;
     }
 }

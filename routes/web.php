@@ -14,6 +14,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     // Contact Management Routes
+    Route::get('contacts/trash', [App\Http\Controllers\Web\ContactController::class, 'trash'])
+        ->name('contacts.trash');
+    Route::post('contacts/{id}/restore', [App\Http\Controllers\Web\ContactController::class, 'restore'])
+        ->name('contacts.restore');
+    Route::delete('contacts/{id}/force', [App\Http\Controllers\Web\ContactController::class, 'forceDelete'])
+        ->name('contacts.force-delete');
     Route::resource('contacts', App\Http\Controllers\Web\ContactController::class);
     Route::post('contacts/{contact}/toggle-favorite', [App\Http\Controllers\Web\ContactController::class, 'toggleFavorite'])
         ->name('contacts.toggle-favorite');

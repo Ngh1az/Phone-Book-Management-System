@@ -8,16 +8,12 @@ use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the user's tags.
-     *
-     * @param Request $request
-     * @return AnonymousResourceCollection
      */
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -45,9 +41,6 @@ class TagController extends Controller
 
     /**
      * Store a newly created tag.
-     *
-     * @param Request $request
-     * @return TagResource
      */
     public function store(Request $request): TagResource
     {
@@ -58,17 +51,6 @@ class TagController extends Controller
             'color' => ['nullable', 'string', 'max:7', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ]);
 
-        // Auto-generate slug from name
-        $validated['slug'] = Str::slug($validated['name']);
-
-        // Ensure slug is unique for this user
-        $originalSlug = $validated['slug'];
-        $counter = 1;
-        while (Tag::where('user_id', $request->user()->id)->where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $counter;
-            $counter++;
-        }
-
         $tag = $request->user()->tags()->create($validated);
 
         return new TagResource($tag);
@@ -76,9 +58,6 @@ class TagController extends Controller
 
     /**
      * Display the specified tag.
-     *
-     * @param Tag $tag
-     * @return TagResource
      */
     public function show(Tag $tag): TagResource
     {
@@ -91,10 +70,6 @@ class TagController extends Controller
 
     /**
      * Update the specified tag.
-     *
-     * @param Request $request
-     * @param Tag $tag
-     * @return TagResource
      */
     public function update(Request $request, Tag $tag): TagResource
     {
@@ -105,19 +80,6 @@ class TagController extends Controller
             'color' => ['nullable', 'string', 'max:7', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ]);
 
-        // Update slug if name changed
-        if (isset($validated['name']) && $validated['name'] !== $tag->name) {
-            $validated['slug'] = Str::slug($validated['name']);
-
-            // Ensure slug is unique
-            $originalSlug = $validated['slug'];
-            $counter = 1;
-            while (Tag::where('user_id', $request->user()->id)->where('slug', $validated['slug'])->where('id', '!=', $tag->id)->exists()) {
-                $validated['slug'] = $originalSlug . '-' . $counter;
-                $counter++;
-            }
-        }
-
         $tag->update($validated);
 
         return new TagResource($tag);
@@ -125,9 +87,6 @@ class TagController extends Controller
 
     /**
      * Remove the specified tag.
-     *
-     * @param Tag $tag
-     * @return JsonResponse
      */
     public function destroy(Tag $tag): JsonResponse
     {

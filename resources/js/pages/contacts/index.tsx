@@ -183,12 +183,20 @@ export default function ContactsIndex({
                             Quản lý và sắp xếp danh bạ của bạn một cách gọn gàng
                         </p>
                     </div>
-                    <Button asChild>
-                        <Link href="/contacts/create">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Thêm Liên Hệ
-                        </Link>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <Link href="/contacts/trash">
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Thùng Rác
+                            </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href="/contacts/create">
+                                <Plus className="mr-2 h-4 w-4" />
+                                Thêm Liên Hệ
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Filters */}
